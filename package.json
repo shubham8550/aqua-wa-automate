@@ -1,0 +1,17 @@
+{
+  "name": "aqua-wa-automate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node server.js"
+  },
+  "author": "Shubham Badgujar",
+  "license": "ISC",
+  "dependencies": {
+    "@open-wa/wa-automate": "^1.9.105",
+    "node-html-to-image": "^3.0.1",
+    "request": "^2.88.2"
+  }
+}
