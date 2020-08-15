@@ -6,7 +6,12 @@ const fs = require('fs');
 const jikan="http://192.168.0.108:8000/v3/";
 wa.create().then(client => start(client));
 
-
+// const launchConfig = {
+//     useChrome: false,
+//     autoRefresh:true,
+//     cacheEnabled:false,
+//     sessionId: 'hr'
+// };
 function start(client) {
     client.onMessage(message => {
         if(message.isGroupMsg ){
