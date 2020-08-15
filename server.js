@@ -3,7 +3,8 @@ const feature = require('./features.js');
 const wa = require('@open-wa/wa-automate');
 const request = require('request');
 const fs = require('fs');
-const jikan="http://192.168.0.108:8000/v3/";
+const jikan="https://api.jikan.moe/v3/";
+//const jikan="http://192.168.0.108:8000/v3/";
 wa.create().then(client => start(client));
 
 // const launchConfig = {
