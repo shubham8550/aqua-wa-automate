@@ -1,10 +1,29 @@
-
+const express=require("express");
 const feature = require('./features.js');
 const wa = require('@open-wa/wa-automate');
 const request = require('request');
 const fs = require('fs');
 const jikan="https://api.jikan.moe/v3/";
 //const jikan="http://192.168.0.108:8000/v3/";
+const app = express();
+
+var port = process.env.PORT || 80;
+app.get("/",(req,res) => {
+res.send("Everything is working on port"+port);
+})
+app.get("/wakemydyno.txt",(req,res) => {
+    res.sendFile(__dirname + "/wakemydyno.txt");
+  })
+
+app.listen(port,function() {
+console.log("Server Started on "+port);
+});
+
+
+
+
+
+
 wa.create().then(client => start(client));
 
 // const launchConfig = {

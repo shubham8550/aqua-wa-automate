@@ -1,6 +1,7 @@
 const request = require('request');
 const fs = require('fs');
-const jikan="http://192.168.0.108:8000/v3/";
+const jikan="https://api.jikan.moe/v3/";
+//const jikan="http://192.168.0.108:8000/v3/";
 module.exports = { helpContent ,helpContent ,animeSearch ,mangaSearch,redditContent,readJsonFile,saveJsonFile}
 
 
