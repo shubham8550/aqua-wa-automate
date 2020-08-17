@@ -1,18 +1,21 @@
 
+
 const feature = require('./features.js');
 const wa = require('@open-wa/wa-automate');
 const request = require('request');
 const fs = require('fs');
-const jikan="https://api.jikan.moe/v3/";
-//const jikan="http://192.168.0.108:8000/v3/";
-wa.create().then(client => start(client));
+//const jikan="https://api.jikan.moe/v3/";
+const jikan="http://192.168.0.108:8000/v3/";
+const launchConfig = {
+    useChrome: true,
+    autoRefresh:true,
+    headless: true,
+    cacheEnabled:false,
+    customUserAgent:"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
+};
+wa.create(launchConfig).then(client => start(client));
 
-// const launchConfig = {
-//     useChrome: false,
-//     autoRefresh:true,
-//     cacheEnabled:false,
-//     sessionId: 'hr'
-// };
+
 function start(client) {
     client.onMessage(message => {
         if(message.isGroupMsg ){
