@@ -26,7 +26,9 @@ function start(client) {
             } else if (message.body.toLowerCase().startsWith("/art")){
                 feature.redditContent(client,message,"awwnime");
             } else if (message.body.toLowerCase().startsWith("/meme")){
-                feature.redditContent(client,message,"Animemes");
+                feature.redditContent(client,message,"");
+            } else if (message.body.toLowerCase().startsWith("/wall")){
+                feature.redditContent(client,message,"Animewallpaper");
             } else if (message.body.toLowerCase().startsWith("/help")){
                 feature.helpContent(client,message,);
             } else if (message.body.toLowerCase().startsWith("/rules")){
