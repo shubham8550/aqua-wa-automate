@@ -31,6 +31,8 @@ function start(client) {
                 feature.redditContent(client,message,"Animewallpaper");
             } else if (message.body.toLowerCase().startsWith("/help")){
                 feature.helpContent(client,message,);
+            }  else if (message.body.toLowerCase().includes("chat.whatsapp.com/")){
+                client.reply(message.from,"*WARNING*\n Invite links not Allowed",message.id);
             } else if (message.body.toLowerCase().startsWith("/rules")){
                 //rulesContent(client,message,);
                 // saveJsonFile("test.json",{name:"shubham"})
