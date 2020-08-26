@@ -7,18 +7,42 @@
 //
 //
 // client.toBase64(request(""))
-var another = require('./resources.js');
+const feature = require('./features.js');
+const statFile="userStat.json";
+//init
+// var data={
+//     users:{
+//         user_id:{
+//             totalmsgs:0,
+//             repoted: 0,
+//
+//         }
+//     }
+// }
+// feature.saveJsonFile("userStat.json",data)
+
+var obj=feature.readJsonFile(statFile)
+
+function getRank(sender){
+    let msg= obj.users[sender].totalmsgs;
+    //delete obj.users[sender];
+    let rank=1;
+    for (user in obj.users) {
+        if(obj.users[user].totalmsgs>msg){
+            rank=rank+1;
+
+        }
+    }
+    return rank;
+}
+
+console.log("Rank is "+getRank("Shu2ham"))
 
 
-another.test()
+//console.log(obj.users.hasOwnProperty("lol3"))
 
-
-
-
-
-
-
-
+//obj.users["lol3"]={totalmsgs:320,repoted: 1, };
+//feature.saveJsonFile(statFile,obj)
 
 
 

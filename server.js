@@ -7,12 +7,12 @@ const fs = require('fs');
 //const jikan="https://api.jikan.moe/v3/";
 const jikan="http://192.168.0.108:8000/v3/";
 const launchConfig = {
-    useChrome: true,
+   // useChrome: true,
     autoRefresh:true,
     headless: true,
-    cacheEnabled:true,
-    executablePath: "/usr/bin/chromium-browser",
-    customUserAgent:"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
+   // cacheEnabled:true,
+   // executablePath: "/usr/bin/chromium-browser",
+  //  customUserAgent:"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
 };
 wa.create(launchConfig).then(client => start(client));
 
@@ -38,7 +38,8 @@ function start(client) {
                 //rulesContent(client,message,);
                 // saveJsonFile("test.json",{name:"shubham"})
                 // console.log(readJsonFile("test.json").name)
-
+               client.sendStickerfromUrl(message.from,"https://svg2png1.glitch.me/?u="+message.sender.pushname+"&rank=12&level=307");
+                //client.reply(message.chatId,message.sender.formattedName+" | "+message.sender.name+" | "+message.sender.shortName+" | "+message.sender.pushname,message.id);//Shubham Badgujar Jio | Shubham Badgujar Jio | Shubham | Magician Master
             }
 
         }
