@@ -1,9 +1,217 @@
 const request = require('request');
 const fs = require('fs');
 const jikan="http://192.168.0.108:8000/v3/";
-module.exports = { helpContent ,helpContent ,animeSearch ,mangaSearch,redditContent,readJsonFile,saveJsonFile}
+module.exports = { helpContent,sticker,addcandidate,voteadapter ,helpContent,getpoll ,adminpollreset,animeSearch ,mangaSearch,redditContent,readJsonFile,saveJsonFile}
+const pollfile="poll_Config.json";
+const voterslistfile="poll_voters_Config.json";
+
+function voteadapter(client,message){
+    console.log("flag1")
+
+    //voteadapter
+    if (isvoted(message)){
+        client.reply(message.chatId,"*you already voted for this poll*",message.id,true);
+        return;
+    }
+    //console.log("flag2")
+   let data=readJsonFile(pollfile)
+
+    if(data["candis"]==="null") {
+       client.reply(message.chatId,"No candidates Added In Poll",message.id,true);
+        return;
+    }
+
+    let arr=data["candis"]
+   // console.log(arr)
+    for (let i = 0; i < arr.length; i++) {
+        if(message.body.includes((i+1).toString())){
+            //console.log(i)
+            addvote(client,message,i);
+            return;
+        }
+    }
+    console.log("here")
+   client.reply(message.chatId,"Wrong Format",message.id,true);
+
+}
+
+async function addcandidate(client,message, candi){
+    if(await isGroupAdmin(client,message,message,message.author)){
+      //  console.log("admin logging")
+    }else {
+
+       client.reply(message.chatId,"Ask Admin to add "+candi,message.id,true);
+        return;
+    }
+    let data = readJsonFile(pollfile)
+
+    if(data["candis"]==="null"){
+      //  let arra=[];
+        let cd={
+            name:candi,
+            votes:0
+        };
+        // cd.put("name",candi);
+        // cd.put("votes",0);
+        // arra.push(cd);
+        delete data["candis"];
+        // data.put("candis",arra);
+        data["candis"]=[cd,]
+
+    }else {
+        if(data["candis"].length >= 9){
+           client.reply(message.chatId,"*you cant add more than 9 candidates in poll*",message.id,true);
+            return;
+        }
+
+        let cd={
+            name:candi,
+            votes:0
+        };
 
 
+        data["candis"].push(cd);
+
+    }
+
+
+
+
+    //l(base.toString());
+    saveJsonFile(pollfile,data)
+    client.reply(message.chatId,"Poll Candidate "+candi+" Added Successfully",message.id,true);
+
+}
+
+
+function addvote(client,message,num) {
+    console.log(num)
+
+    let data = readJsonFile(pollfile)
+
+    let vts=data["candis"][num]["votes"];
+
+    vts=vts+1;
+
+    delete data["candis"][num]["votes"];
+    data["candis"][num]["votes"]=vts
+    console.log(data)
+    saveJsonFile(pollfile,data)
+    let op;
+    op="*Voted successfully on "+data["candis"][num]["name"]+"*\n*Anime Guild of Maharashtra*\n*Title : "+data["title"]+"*\n";
+    let ls="";
+    let arr=data["candis"];
+    for (let i = 0; i < arr.length; i++) {
+        let cd=arr[i];
+        ls= ls+((i+1).toString())+")"+cd["name"]+" : ["+cd["votes"]+" Votes] \n";
+
+    }
+
+    op=op+ls;
+    op=op+"\n For voting use command */vote candidate-number* \n Example */vote 2*";
+
+    client.reply(message.chatId,op,message.id,true);
+    addvotedlog(message);
+
+
+}
+
+function isvoted(message) {
+
+    let data=readJsonFile(voterslistfile)
+   // console.log(data["list"])
+    return data["list"].includes(message.author);
+
+}
+function addvotedlog(message) {
+    let data=readJsonFile(voterslistfile)
+    data["list"].push(message.author)
+    saveJsonFile(voterslistfile,data);
+}
+
+
+
+function getpoll(client,message){
+
+    let data=readJsonFile(pollfile)
+    //console.log(data)
+    let op="";
+    if(data["candis"]=="null"){
+        op="*Anime Guild of Maharashtra*\n*Title : "+data["title"]+"*\n No candidates Added \n use (*\\add candidate-name*) to add candidate";
+    }else {
+        op="*Anime Guild of Maharashtra*\n*Title : "+data["title"]+"*\n";
+        let ls="";
+        let arr=data["candis"];
+        for (let i = 0; i < arr.length; i++) {
+            let cd=arr[i];
+            ls= ls+(i+1).toString()+")"+cd["name"]+" : ["+cd["votes"]+" Votes] \n";
+
+        }
+
+        op=op+ls;
+        op=op+"\n For voting use command */vote candidate-number* \n Example */vote 2*";
+
+    }
+    client.reply(message.chatId,op,message.id,true)
+
+}
+async function adminpollreset(client,message,polltitle) {
+    if(await isGroupAdmin(client,message,message.author)){
+        var datetime = new Date();
+      //  savefile(todaysdate+".json",getFile(pollfile));
+        try{
+            saveJsonFile("poll_logs.json",readJsonFile(pollfile))
+        }catch (e) {
+            console.log("poll file not eist  for backup")
+        }
+
+        let base={
+            title:polltitle,
+            polldate:datetime.toISOString().slice(0,10),
+            candis:"null"
+        }
+        //l(base.toString());
+        saveJsonFile(pollfile,base)
+
+        client.reply(message.chatId,"*Poll Created Successfully*\n Title : "+polltitle+"\n use (\\add candidate-name) to add candidate",message.id);
+
+        //voterresetter
+
+        let data={
+            list:["testentry"]
+        }
+
+        saveJsonFile(voterslistfile,data);
+    }else {
+        client.reply(message.chatId,"*Admin Only Command*",message.id)
+    }
+
+
+}
+
+async function sticker(client,message) {
+    let { type, body, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, chatId, Contact, author } = message
+    let args = body.trim().split(' ')
+    let isUrl = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi)
+    if (isMedia) {
+        const mediaData = await decryptMedia(message)
+        const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
+        await client.sendImageAsSticker(from, imageBase64)
+    } else if (quotedMsg && quotedMsg.type == 'image') {
+        const mediaData = await decryptMedia(quotedMsg)
+        const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+        await client.sendImageAsSticker(from, imageBase64)
+    } else if (args.length == 2) {
+        const url = args[1]
+
+        url.match(isUrl) ? await client.sendStickerfromUrl(from, url, { method: 'get' })
+            .then(r => { if (!r) client.sendText(from, 'The URL is not walid') })
+            .catch(err => console.log('Caught exception: ', err)) : client.sendText(from, 'Sorry The URL is not valid')
+    } else {
+        client.sendText(from, 'You did not quote a picture, Baka! To make a sticker, send an image with "/sticker" as caption')
+    }
+
+}
 function helpContent(client, message) {
     var helptext="*Anime Guild Of Maharastra*\n" +
         "\nUseless AQua B0T\n" +
@@ -14,7 +222,7 @@ function helpContent(client, message) {
         "  4) */manga [manga-name]*\n" +
         "\n" +
         "Note :old commands will start work as soon as i finish porting them[Admin]"
-    client.reply(message.from,helptext,message.id)
+    client.reply(message.from,helptext,message.id).catch(console.log)
 
 }
 function redditContent(client,message,rchannel){
@@ -87,7 +295,7 @@ var configFiles=__dirname+"\\configFiles\\";
 }
 function saveJsonFile(filename,object) {
     filename=configFiles+filename;
-    console.log("pokelog "+filename)
+   // console.log("pokelog "+filename)
     var jsonContent = JSON.stringify(object);
     fs.writeFile(filename, jsonContent, 'utf8', function (err) {
         if (err) {
@@ -97,5 +305,9 @@ function saveJsonFile(filename,object) {
 
 
     });
+}
+async function isGroupAdmin(client,message,author) {
+    let value=await client.getGroupAdmins(message.chatId)
+    return value.toString().includes(message.author)
 }
 
