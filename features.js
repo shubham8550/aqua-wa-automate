@@ -1,6 +1,7 @@
 const request = require('request');
 const fs = require('fs');
-const jikan="http://192.168.0.108:8000/v3/";
+//const jikan="http://192.168.0.108:8000/v3/";
+const jikan="https://api.jikan.moe/v3/";
 module.exports = { helpContent,sticker,addcandidate,voteadapter ,helpContent,getpoll ,adminpollreset,animeSearch ,mangaSearch,redditContent,readJsonFile,saveJsonFile}
 const pollfile="poll_Config.json";
 const voterslistfile="poll_voters_Config.json";
