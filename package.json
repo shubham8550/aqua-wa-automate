@@ -10,7 +10,7 @@
   "author": "Shubham Badgujar",
   "license": "ISC",
   "dependencies": {
-    "@open-wa/wa-automate": "^1.9.105",
+    "@open-wa/wa-automate": "^2.0.12",
     "request": "^2.88.2"
   }
 }
