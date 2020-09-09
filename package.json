@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@open-wa/wa-automate": "^2.0.12",
+    "@open-wa/wa-decrypt": "^2.0.1",
     "request": "^2.88.2"
   }
 }
