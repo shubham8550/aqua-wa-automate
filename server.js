@@ -31,6 +31,8 @@ function start(client) {
             feature.animeSearch(client,message,message.body.slice(6))
             }else if (message.body.startsWith("/manga")) {
                 feature.mangaSearch(client,message,message.body.slice(6))
+            }else if (message.body.startsWith("/sauce")) {
+                feature.souceAdapter(client,message)
             }else if (message.body.startsWith("/poll")) {
                 feature.getpoll(client,message)
             } else if (message.body.startsWith("/vote")) {
