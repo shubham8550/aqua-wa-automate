@@ -7,11 +7,13 @@ const fs = require('fs');
 const jikan="https://api.jikan.moe/v3/";
 //const jikan="http://192.168.0.108:8000/v3/";
 const launchConfig = {
-   // useChrome: true,
+    useChrome: true,
     autoRefresh:true,
+    disableSpins: true,
+    blockCrashlogs: true,
     headless: true,
-   // cacheEnabled:true,
-   // executablePath: "/usr/bin/chromium-browser",
+   // cacheEnabled:false,
+    executablePath: "/usr/bin/chromium-browser",
   //  customUserAgent:"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
   //   cacheEnabled: false,
   //   chromiumArgs: [
@@ -46,7 +48,7 @@ function start(client) {
             } else if (message.body.toLowerCase().startsWith("/help")){
                 feature.helpContent(client,message,);
             } else if (message.body.toLowerCase().startsWith("/sticker") || message.body.toLowerCase().startsWith("/stiker")){
-                // feature.sticker(client,message,);
+                 feature.sticker(client,message,);
             }  else if (message.body.toLowerCase().includes("chat.whatsapp.com/")){
                 client.reply(message.from,"*WARNING*\n Invite links not Allowed",message.id);
             } else if (message.body.toLowerCase().startsWith("/rules")){
