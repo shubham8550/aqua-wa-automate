@@ -1,6 +1,7 @@
 const request = require('request');
 const fs = require('fs');
-//const jikan="http://192.168.0.108:8000/v3/";
+const dm = require('@open-wa/wa-decrypt');
+
 const jikan="https://api.jikan.moe/v3/";
 module.exports = { helpContent,sticker,addcandidate,voteadapter ,helpContent,getpoll ,adminpollreset,animeSearch ,mangaSearch,redditContent,readJsonFile,saveJsonFile}
 const pollfile="poll_Config.json";
@@ -195,11 +196,11 @@ async function sticker(client,message) {
     let args = body.trim().split(' ')
     let isUrl = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi)
     if (isMedia) {
-        const mediaData = await decryptMedia(message)
+        const mediaData = await dm.decryptMedia(message)
         const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
         await client.sendImageAsSticker(from, imageBase64)
     } else if (quotedMsg && quotedMsg.type == 'image') {
-        const mediaData = await decryptMedia(quotedMsg)
+        const mediaData = await dm.decryptMedia(quotedMsg)
         const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
         await client.sendImageAsSticker(from, imageBase64)
     } else if (args.length == 2) {
@@ -223,7 +224,7 @@ function helpContent(client, message) {
         "  4) */manga [manga-name]*\n" +
         "\n" +
         "Note :old commands will start work as soon as i finish porting them[Admin]"
-    client.reply(message.from,helptext,message.id).catch(console.log)
+    client.reply(message.chatId,helptext,message.id,true).catch(console.log)
 
 }
 function redditContent(client,message,rchannel){
