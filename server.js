@@ -26,7 +26,7 @@ wa.create(launchConfig).then(client => start(client));
 
 function start(client) {
     client.onMessage(message => {
-        if(message.isGroupMsg ){
+       // if(message.isGroupMsg ){
             if (message.body.startsWith("/anime")) {
             feature.animeSearch(client,message,message.body.slice(6))
             }else if (message.body.startsWith("/manga")) {
@@ -66,7 +66,7 @@ function start(client) {
                 //client.reply(message.chatId,message.sender.formattedName+" | "+message.sender.name+" | "+message.sender.shortName+" | "+message.sender.pushname,message.id);//Shubham Badgujar Jio | Shubham Badgujar Jio | Shubham | Magician Master
             }
 
-        }
+      //  }
 
 
 
