@@ -14,9 +14,10 @@ Todo:
 - Moderation System(Non priortized)
 
 ---
-Use
-  -npm install
-  -node server.js
+Use:
+-
+-npm install
+-node server.js
 (After this scan qr in console )
   
 
