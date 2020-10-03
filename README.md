@@ -13,8 +13,13 @@ Todo:
 - Express Control Panel
 - Moderation System(Non priortized)
 
+---
+Use
+  -npm install
+  -node server.js
+(After this scan qr in console )
   
-  
+
   
 Issues:
   -
