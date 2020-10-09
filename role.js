@@ -7,8 +7,8 @@
 //
 //
 // client.toBase64(request(""))
-const feature = require('./features.js');
-const statFile="userStat.json";
+const {readJsonFile} = require("./readJsonFile");
+const statFile = "userStat.json";
 //init
 // var data={
 //     users:{
@@ -21,48 +21,28 @@ const statFile="userStat.json";
 // }
 // feature.saveJsonFile("userStat.json",data)
 
-var obj=feature.readJsonFile(statFile)
+var obj = readJsonFile(statFile)
 
-function getRank(sender){
-    let msg= obj.users[sender].totalmsgs;
+function getRank(sender) {
+    let msg = obj.users[sender].totalmsgs;
     //delete obj.users[sender];
-    let rank=1;
+    let rank = 1;
     for (user in obj.users) {
-        if(obj.users[user].totalmsgs>msg){
-            rank=rank+1;
+        if (obj.users[user].totalmsgs > msg) {
+            rank = rank + 1;
 
         }
     }
     return rank;
 }
 
-console.log("Rank is "+getRank("Shu2ham"))
+console.log("Rank is " + getRank("Shu2ham"))
 
 
 //console.log(obj.users.hasOwnProperty("lol3"))
 
 //obj.users["lol3"]={totalmsgs:320,repoted: 1, };
 //feature.saveJsonFile(statFile,obj)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // const fs = require('fs');
