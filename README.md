@@ -1,5 +1,5 @@
 # aqua-wa-automate
-Aqua Bot
+Aqua Bot [ EOL ]
 
 
 Status:
